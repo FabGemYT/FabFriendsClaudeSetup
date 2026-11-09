@@ -775,7 +775,18 @@ which never rewrites an edited file. Anything else (an unsaved edit that differs
 commits on main, another branch, no network) is left exactly as it is, the reason goes
 to `state/harness-sync.log`, and `/health` check 13e warns ("N commits behind GitHub").
 The repo's `.gitattributes` (`* text=auto eol=lf`) is what keeps byte comparisons honest
-on Windows. Tests: `hooks/tests/test-sync-harness.py`, 10 cases on scratch repos.
+on Windows. Tests: `hooks/tests/test-sync-harness.py`, 11 cases on scratch repos.
+
+**Never write `ref:path` as one argument in a Git Bash script (2026-11-10).** Git Bash
+rewrites it before git runs: `origin/main:.gitignore` arrived as `origin\main;.gitignore`,
+because a colon beside something that looks like a path reads as a path-list separator.
+Every dot-file lookup in the sync's fallback failed, and its restore loop deleted
+`.gitignore`, both plugin manifests and the new workflow file the first time a merge
+touched dot-files (the PR #80 sync). With `.gitignore` gone, `secrets/` and `.env.local`
+showed as files git would add; they were restored before anything was committed. Pass the
+path separately (`git ls-tree <ref> -- <path>`), which the sync now does, and the delete
+branch only runs when the lookup itself worked. `git show ref:path` typed in the Bash tool
+has the same trap for dot-files.
 
 ## Agent browser profile (the browser-autonomy layer)
 
