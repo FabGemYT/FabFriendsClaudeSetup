@@ -1,0 +1,34 @@
+#!/bin/bash
+# claude-chrome -- start Claude Code with the browser bridge connected (Git Bash).
+#
+# WHY THIS EXISTS. The browser is the universal fallback for every task with no
+# CLI, API, or MCP: Google Cloud Console (OAuth clients cannot be created by any
+# API as of mid-2026), Play Console's app-signing SHA-1 page, RevenueCat
+# credential uploads, and any dashboard-only toggle. Without it those tasks get
+# handed BACK to the user as homework, which is the exact failure this system
+# exists to prevent. With it, they are Claude's job.
+#
+# `--chrome` is a real flag (verified in `claude --help`) and there is no
+# settings.json key that enables it, so a launcher is the only durable way.
+# ~/.claude.json already has claudeInChromeDefaultEnabled=true, but the flag
+# makes it explicit and survives that value being reset.
+#
+# ONE-TIME HUMAN SETUP (per Chrome profile, extensions are per-profile):
+#   1. Open the "Claude Agent" Chrome profile.
+#   2. Install: https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn
+#   3. Sign the extension in to the same Claude account as this Max plan.
+#   4. Disable the extension in the personal/Default profile, so exactly one
+#      instance exists and Claude Code binds deterministically (there is no
+#      profile picker: github.com/anthropics/claude-code/issues/19740).
+#   5. Fully quit Chrome (check the tray) and reopen ONLY the Agent profile.
+#
+# IF IT STILL DOES NOT CONNECT (list_connected_browsers returns []):
+#   - Run /chrome in-session and choose "Reconnect extension" (the extension's
+#     service worker idles out during long sessions).
+#   - Close other Claude Code sessions: concurrent sessions on Windows can fight
+#     over the native-messaging named pipe (issues #63727, #72606).
+#   - Confirm the bridge: HKCU\Software\Google\Chrome\NativeMessagingHosts\
+#     com.anthropic.claude_code_browser_extension  (Chrome reads it only at
+#     startup, so restart Chrome after any change).
+
+exec claude --chrome "$@"

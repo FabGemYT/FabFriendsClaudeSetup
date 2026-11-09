@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Store frame component system.
+
+   Copy this next to your frame HTML files and replace the :root block with
+   tokens derived from the target app (scripts/derive-tokens.mjs). Everything
+   below reads from those tokens, so one edit re-skins the whole set.
+
+   Two rules the rest of this file depends on:
+
+   1. TYPE ROLES ARE SPLIT. --display carries the headline and the wordmark and
+      nothing else. --serif is for anything a person actually reads. Setting
+      body copy in a heavy display face turns eight lines into a wall.
+
+   2. THE PALETTE IS LIFTED FOR PRINT. An app palette is tuned for a phone held
+      close in a dark room; on a listing scrolled past in daylight the same
+      greys go to murk. Ground up one step, secondary and dim text up two, body
+      copy near-white. Same hue, same relationships, more exposure.
+   ========================================================================== */
+:root {
+  /* --- replace this block with the target app's lifted tokens --- */
+  --bg: #0e0e13;
+  --bg-card: #1c1c23;
+  --text: #faf7f0;
+  --text-2: #cfc9bc;
+  --dim: #8d8779;
+  --accent: #dbab7c;
+  --gold: #f6c750;
+  --display: "YourDisplayFace", Georgia, serif;
+  --serif: "YourReadingFace", Georgia, serif;
+  --ui: "Inter", system-ui, sans-serif;
+
+  /* --- frame geometry --- */
+  --frame-w: 1320px;
+  --frame-h: 2868px;
+  --safe-w: 1164px;   /* headline fits to this; leaves a real margin */
+  --col-w: 1152px;    /* the width every device element shares */
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #000; }
+
+/* ---------- shell ---------- */
+.frame {
+  position: relative; width: var(--frame-w); height: var(--frame-h);
+  overflow: hidden; background: var(--bg); isolation: isolate;
+}
+.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+
+/* Dark at the top so the headline has somewhere to live, opening up through
+   the middle so the art is visible, closing again at the very bottom so a
+   bleeding device does not dissolve into it. */
+.scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(6,6,9,0.90) 0%, rgba(6,6,9,0.80) 12%, rgba(6,6,9,0.62) 24%,
+    rgba(6,6,9,0.50) 38%, rgba(6,6,9,0.44) 52%, rgba(6,6,9,0.34) 62%,
+    rgba(6,6,9,0.30) 74%, rgba(6,6,9,0.52) 100%);
+}
+
+/* Warm centre, cool edges. A frame in a single hue is flat no matter how good
+   the art is; a cool rim gives the warm subject something to sit against. */
+.coolrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 42% 24% at -8% 52%, rgba(46,138,156,0.30) 0%, rgba(46,138,156,0) 72%),
+    radial-gradient(ellipse 36% 20% at 108% 64%, rgba(48,118,164,0.22) 0%, rgba(48,118,164,0) 72%);
+}
+
+/* Art with a deliberately empty top leaves the headline floating on nothing.
+   One soft bloom gives the type a ground without putting detail up there. */
+.crown {
+  position: absolute; z-index: 1; pointer-events: none;
+  left: 50%; top: -260px; width: 1680px; height: 1180px; transform: translateX(-50%);
+  background: radial-gradient(ellipse 46% 44% at 50% 50%,
+    rgba(212,163,115,0.16) 0%, rgba(160,120,86,0.07) 42%, rgba(0,0,0,0) 72%);
+  filter: blur(24px);
+}
+
+.stack { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+
+/* ---------- headline ---------- */
+/* font-size is set by fit.js, never here. It binary-searches the largest size
+   the loaded face can hold in --safe-w, so a narrower face gets to be
+   physically bigger for free and swapping typefaces needs no re-layout. */
+.headline {
+  margin-top: 128px;
+  font-family: var(--display); font-weight: 400;
+  font-size: 132px; line-height: 1.02; letter-spacing: -0.012em;
+  text-align: center; color: #fdfbf7;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.75), 0 6px 44px rgba(0,0,0,0.65);
+}
+/* LOAD-BEARING. Without nowrap the line wraps once it gets wide, its measured
+   width stops growing, and the fitter runs to its cap. See traps.md #4. */
+.headline .l1, .headline .gold { white-space: nowrap; }
+.headline .gold {
+  position: relative; display: inline-block; color: var(--gold);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.55), 0 0 54px rgba(246,199,80,0.6);
+}
+/* Scale this with the weight above it. A hairline under a heavy face reads as
+   an accident; 6px under a light serif reads as a mistake the other way. */
+.headline .gold::after {
+  content: ""; position: absolute; left: 1%; right: 1%; bottom: -16px; height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0%, rgba(219,171,124,0.95) 50%, transparent 100%);
+}
+
+/* A second, smaller claim — not a label. Use it for the half of the message
+   that will not fit in the headline. */
+.eyebrow {
+  margin-top: 96px;
+  display: flex; align-items: center; gap: 26px;
+  font-family: var(--ui); font-weight: 600; font-size: 27px;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(224,183,137,0.95); text-shadow: 0 1px 10px rgba(0,0,0,0.9);
+}
+.eyebrow i { display: block; width: 118px; height: 1px; }
+.eyebrow i.l { background: linear-gradient(90deg, rgba(219,171,124,0) 0%, rgba(219,171,124,0.55) 100%); }
+.eyebrow i.r { background: linear-gradient(90deg, rgba(219,171,124,0.55) 0%, rgba(219,171,124,0) 100%); }
+
+/* ---------- the teaching device ---------- */
+/* Whatever sits between the headline and the phone. This is the part most
+   listings are missing. See references/playbook.md. */
+.card {
+  width: var(--col-w); padding: 30px 36px; border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.058) 0%, rgba(255,255,255,0.022) 100%);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.07) inset,
+    0 0 0 1px rgba(0,0,0,0.42) inset,
+    0 22px 60px -22px rgba(0,0,0,0.85);
+  backdrop-filter: blur(20px);
+}
+/* The one item the phone below is showing live. */
+.card.lit {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 15%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 5%, transparent) 100%);
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.13) inset,
+    0 0 0 1px rgba(0,0,0,0.35) inset,
+    0 0 0 6px color-mix(in srgb, var(--accent) 7%, transparent),
+    0 24px 76px -16px color-mix(in srgb, var(--accent) 48%, transparent);
+}
+.label {
+  font-family: var(--ui); font-weight: 600; font-size: 23px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 90%, transparent); margin-bottom: 16px;
+}
+.said { font-family: var(--serif); font-style: italic; font-size: 38px; line-height: 1.35; color: #cfc9bd; margin-bottom: 14px; }
+.body { font-family: var(--serif); font-size: 40px; line-height: 1.42; color: #f2ece0; letter-spacing: 0.004em; }
+.card.lit .body { color: #fdf9f1; }
+
+/* A named distance between two moments. Naming the gap is what turns two
+   screenshots into a proof. */
+.gap { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 20px 0; }
+.gapline { width: 3px; height: 46px; background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--accent) 85%, transparent) 100%); }
+.gapline.up { background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 85%, transparent) 0%, transparent 100%); }
+.gaptag {
+  font-family: var(--ui); font-weight: 600; font-size: 25px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+  text-shadow: 0 0 22px rgba(246,199,80,0.5);
+}
+
+.flow { margin-top: 40px; display: flex; justify-content: center; }
+.flow svg { filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 55%, transparent)); }
+
+.pullquote {
+  width: 1120px; text-align: center;
+  font-family: var(--serif); font-style: italic; font-size: 46px; line-height: 1.44;
+  color: #ded8cc; text-shadow: 0 2px 14px rgba(0,0,0,0.85);
+}
+
+/* Repeated items: UNIFORM brightness. An opacity ramp down a list looks
+   designed and means half your content is unreadable. Differentiate the one
+   that matters with .lit, not by dimming the rest. */
+.chiprow { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: var(--col-w); }
+.chip {
+  --hue: var(--accent);
+  display: inline-flex; align-items: center; gap: 14px;
+  border-radius: 999px; padding: 18px 30px 18px 24px;
+  border: 1px solid color-mix(in srgb, var(--hue) 40%, transparent);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--hue) 14%, transparent) 0%,
+    color-mix(in srgb, var(--hue) 7%, transparent) 100%);
+  font-family: var(--ui); font-size: 31px; color: #ddd7cb;
+  box-shadow: 0 8px 26px -12px color-mix(in srgb, var(--hue) 40%, transparent);
+  backdrop-filter: blur(10px);
+}
+.chip b { color: #fbf6ec; font-weight: 600; }
+
+/* ---------- device ---------- */
+/* Let it bleed off the bottom. A phone that ends inside the frame looks like a
+   sticker; one that runs off looks like a window. fit.js sets `top`. */
+.phoneWrap { position: absolute; left: 50%; transform: translateX(-50%); width: 960px; }
+.floorglow {
+  position: absolute; left: 50%; top: 20px; width: 1560px; height: 1400px; transform: translateX(-50%);
+  background: radial-gradient(ellipse 50% 46% at 50% 50%,
+    color-mix(in srgb, var(--accent) 36%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 15%, transparent) 40%,
+    transparent 74%);
+  filter: blur(26px);
+}
+.phone {
+  position: relative; width: 960px; height: 2100px;
+  border-radius: 134px; padding: 15px;
+  background: linear-gradient(158deg, #45454c 0%, #17171b 24%, #0b0b0e 58%, #2d2d34 100%);
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.9),
+    0 44px 130px -30px rgba(0,0,0,0.95),
+    0 0 110px -16px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.screen { position: relative; width: 930px; height: 2070px; border-radius: 119px; overflow: hidden; background: var(--bg); }
+.island { position: absolute; z-index: 8; top: 24px; left: 50%; transform: translateX(-50%); width: 270px; height: 78px; border-radius: 999px; background: #000; }
+
+/* Author the screen at the device's REAL point width and zoom it to the pixel
+   width, so every value inside is the app's own CSS number. `zoom` re-lays-out
+   and stays crisp; transform:scale() rasterises at 1x and blurs.
+   930 / 430pt = 2.1628 for a 6.9" iPhone. */
+.app { position: absolute; inset: 0; zoom: 2.1628; width: 430px; height: 962px; background: var(--bg); }
+/* A hair of warm lift so the screen stops reading as a hole next to the art. */
+.app::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,240,218,0.06) 0%, rgba(255,240,218,0.028) 45%, rgba(255,240,218,0.014) 100%);
+}
+
+.statusbar {
+  position: absolute; z-index: 7; top: 17px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 36px;
+  font-family: var(--ui); font-weight: 600; font-size: 15.5px; color: #fff;
+}
+.statusbar .right { display: flex; align-items: center; gap: 6px; }
+
+/* Everything real sits above .app::after. */
+.scroller { position: absolute; z-index: 5; left: 0; right: 0; top: 96px; bottom: 0; padding: 6px 22px 0; }
+
+/* ---------- rebuild the app's own components below this line ----------
+   Copy the real radii, borders, glows and type sizes out of the target app's
+   stylesheet. Approximating them by eye is what makes a rebuilt screen look
+   like a mockup instead of a capture. */

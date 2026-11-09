@@ -1,0 +1,18 @@
+# Normalize line endings so the workflow restores correctly across machines.
+# Windows <-> macOS/Linux: shell hooks MUST be LF or they break on Unix.
+* text=auto eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+# cmd.exe is fragile with LF line endings in batch files; keep the Windows
+# launchers CRLF while every shell script stays LF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary assets — never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary

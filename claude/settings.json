@@ -1,0 +1,357 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 36500,
+  "env": {
+    "ENABLE_TOOL_SEARCH": "auto:5",
+    "HYPERFRAMES_NO_TELEMETRY": "1",
+    "DO_NOT_TRACK": "0",
+    "SLASH_COMMAND_TOOL_CHAR_BUDGET": "40000",
+    "CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION": "100000",
+    "CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(gh:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git push --set-upstream:*)",
+      "Bash(git push -u:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git stash:*)",
+      "Bash(git tag:*)",
+      "Bash(git remote:*)",
+      "Bash(git init:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm --filter:*)",
+      "Bash(pnpm dlx:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm dev)",
+      "Bash(pnpm build)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm test)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm install)",
+      "Bash(npm test)",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npm run typecheck)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git branch)",
+      "Bash(pnpm run:*)",
+      "Bash(pnpm exec:*)",
+      "Bash(pnpm format:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(tsx:*)",
+      "Bash(ts-node:*)",
+      "Bash(expo:*)",
+      "Bash(eas:*)",
+      "Bash(supabase:*)",
+      "Bash(vercel:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(echo:*)",
+      "Bash(printf:*)",
+      "Bash(which:*)",
+      "Bash(where:*)",
+      "Bash(cd:*)",
+      "Bash(pwd:*)",
+      "Bash(test:*)",
+      "Bash(curl:*)",
+      "Bash(agent-browser:*)",
+      "Bash(npx agent-browser:*)",
+      "Bash(npx shadcn:*)",
+      "Bash(pnpm dlx shadcn:*)",
+      "Edit",
+      "Write",
+      "MultiEdit",
+      "mcp__shadcn__*",
+      "mcp__claude_ai_Google_Drive__*",
+      "mcp__claude_ai_Supabase__*",
+      "mcp__claude_ai_Vercel__*",
+      "Bash(resend:*)",
+      "Bash(sentry-cli:*)",
+      "Bash(npm i -g:*)",
+      "Bash(npm install -g:*)",
+      "Bash(scoop install:*)",
+      "Bash(scoop bucket add:*)",
+      "mcp__posthog__*",
+      "mcp__sentry__*",
+      "mcp__context7__*",
+      "mcp__chrome-devtools__*",
+      "mcp__expo__*"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git push -u origin main:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fdx:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh release delete:*)",
+      "Bash(npm publish:*)",
+      "Bash(pnpm publish:*)",
+      "Bash(supabase db reset:*)",
+      "Bash(supabase projects delete:*)",
+      "Bash(vercel rm:*)",
+      "Bash(vercel remove:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(vercel deploy --prod:*)",
+      "Bash(vercel deploy --prebuilt --prod:*)",
+      "Bash(vercel --prebuilt --prod:*)",
+      "Bash(vercel promote:*)",
+      "Bash(vercel alias:*)",
+      "mcp__claude_ai_Vercel__deploy_to_vercel",
+      "mcp__claude_ai_Vercel__update_project_deployment_protection",
+      "mcp__claude_ai_Supabase__delete_branch",
+      "Bash(vercel buy:*)"
+    ],
+    "ask": [
+      "Bash(supabase secrets unset:*)",
+      "Bash(supabase branches delete:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(claude plugin install:*)",
+      "Bash(claude plugin marketplace add:*)",
+      "Bash(claude plugin uninstall:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "fallbackModel": [
+    "claude-opus-4-8",
+    "claude-sonnet-5",
+    "claude-haiku-4-5"
+  ],
+  "skillOverrides": {
+    "accessibility": "name-only",
+    "ai-seo": "name-only",
+    "aso": "name-only",
+    "best-practices": "name-only",
+    "claude-ads": "name-only",
+    "core-web-vitals": "name-only",
+    "frontend-design-official": "name-only",
+    "homepage": "name-only",
+    "hyperframes-creative": "name-only",
+    "hyperframes-keyframes": "name-only",
+    "hyperframes-registry": "name-only",
+    "impeccable": "name-only",
+    "lp-conversion-audit": "name-only",
+    "media-use": "name-only",
+    "mk-ad-creative": "name-only",
+    "mk-ads": "name-only",
+    "mk-copywriting": "name-only",
+    "mk-cro": "name-only",
+    "mk-lead-magnets": "name-only",
+    "mk-marketing-psychology": "name-only",
+    "mk-offers": "name-only",
+    "performance": "name-only",
+    "programmatic-seo": "name-only",
+    "react-native-best-practices": "name-only",
+    "remotion-best-practices": "name-only",
+    "schema": "name-only",
+    "seo": "name-only",
+    "seo-aeo-best-practices": "name-only",
+    "seo-audit": "name-only",
+    "seo-backlinks": "name-only",
+    "seo-cluster": "name-only",
+    "seo-competitor-pages": "name-only",
+    "seo-content": "name-only",
+    "seo-content-brief": "name-only",
+    "seo-dataforseo": "name-only",
+    "seo-drift": "name-only",
+    "seo-ecommerce": "name-only",
+    "seo-flow": "name-only",
+    "seo-geo": "name-only",
+    "seo-google": "name-only",
+    "seo-hreflang": "name-only",
+    "seo-image-gen": "name-only",
+    "seo-images": "name-only",
+    "seo-local": "name-only",
+    "seo-maps": "name-only",
+    "seo-page": "name-only",
+    "seo-plan": "name-only",
+    "seo-programmatic": "name-only",
+    "seo-schema": "name-only",
+    "seo-sitemap": "name-only",
+    "seo-sxo": "name-only",
+    "server-side-tracking": "name-only",
+    "site-architecture": "name-only",
+    "skill-creator": "name-only",
+    "store-screenshots": "name-only",
+    "web-design-guidelines": "name-only",
+    "web-quality-audit": "name-only"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-main-push.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-pr-merge.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-prod-deploy.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-stacked-pr-base.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-guard-tamper.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-secret-leak.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/block-mcp-danger.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/load-env.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/reinject-on-compact.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/sweep-leftovers.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/stop-branch-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/sweep-leftovers.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "matcher": "claude.ai Supabase",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/answer-supabase-sql-confirm.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.claude/hooks/statusline.sh"
+  },
+  "enabledPlugins": {
+    "security-guidance@claude-plugins-official": false,
+    "expo@claude-plugins-official": false,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/anthropics/claude-plugins-official.git"
+      }
+    }
+  },
+  "outputStyle": "Direct",
+  "feedbackDrafts": "off",
+  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "precomputeCompactionEnabled": true,
+  "switchModelsOnFlag": false,
+  "fileCheckpointingEnabled": true,
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "environment": [
+      "$defaults",
+      "Secrets management: ~/.claude/.env.local and ~/.claude/secrets/ on this machine, Vercel environment variables, Supabase secrets, and GitHub Actions secrets on his own repositories. The inventory is ~/.claude/rules/secrets-map.md.",
+      "CI/CD deploy targets: GitHub Actions workflows in his repositories (store builds and uploads) and Vercel preview deployments for every branch. Production goes live only through a merge to main, which is his button. Redeploying or rolling back an already-approved production deployment on Vercel is routine, as is uploading a build to TestFlight or a Play internal track.",
+      "Internal sharing / snippet hosting: none. Nothing is shared with other people. Public posting under his name (social posts, store submissions for review, public launches) still waits for his explicit go in chat."
+    ]
+  }
+}
