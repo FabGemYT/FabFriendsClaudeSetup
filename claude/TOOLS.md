@@ -708,6 +708,22 @@ it is orphaned, traceable to Claude, and unused:
 - **Its limit:** closing a terminal window runs no hook. That session's leftovers are
   closed the next time any session starts or finishes a reply.
 
+**A stopped script that acts later keeps running while its session is open (2026-11-08).**
+The sweep keeps any leftover whose folder or script path belongs to a session that is still
+open ("its project's session is still open"): that protects dev servers, and it protects a
+stopped script too. On 7 Nov a live web game stopped a background `bash <script>.sh` (in the
+session's scratchpad) that slept until 04:30 UTC the next morning and then sent player
+email. TaskStop answered "Successfully stopped", the session stayed open, and 11.5 hours
+later the script sent 10 real emails a day early. The check made after the stop looked for
+the file the script would write, which a sleeping script had not written yet.
+- After stopping a background task that would ACT later (send, write, spend), find it by
+  its command line (`Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match
+  '<script name>' }`), close the tree (`taskkill //PID <pid> //T //F`) and list again. A
+  stop message says nothing about the children.
+- Prove "nothing will happen" from the process list, never from missing output files.
+- Put timed actions in a session cron (CronCreate / CronDelete), not a sleeping
+  background script: deleting a cron is reliable, killing a sleeper is not.
+
 ### Idle sessions: the TypeScript server sleeps until needed (2026-10-30)
 
 Sessions here stay open for days and sit idle most of the time: in the week to 30 Oct,
